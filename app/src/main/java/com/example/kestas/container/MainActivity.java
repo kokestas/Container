@@ -1,7 +1,6 @@
 package com.example.kestas.container;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,7 +29,6 @@ public class MainActivity extends Activity {
         itemsAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
-        items.add("Paspausk ir laikyk kad istrintum mane");
         setupListViewListener();
     }
     public void onAddItem(View v) {
@@ -53,6 +51,22 @@ public class MainActivity extends Activity {
                     }
 
                 });
+        lvItems.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapter,
+                                            View item, int pos, long id) {
+                        items.get(pos);
+
+                        EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
+                        etNewItem.setText(items.get(pos));
+                        items.remove(pos);
+                        itemsAdapter.notifyDataSetChanged();
+                        writeItems();
+                    }
+
+                });
+
     }
         private void readItems() {
             File filesDir = getFilesDir();
